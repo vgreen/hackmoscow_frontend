@@ -292,7 +292,9 @@ window.onload = _ => {
 	}
 
 	submit.onclick = _ =>{
-		let arr = []
+		let arr = [],
+			user = document.getElementById('user').innerHTML,
+			preset = document.getElementById('preset').innerHTML
 
 		for (var j = 0; j < categories.length ; j++){
 			let modules = categories[j].element.childNodes
@@ -302,9 +304,33 @@ window.onload = _ => {
 				arr[j].modules.push({name: modules[i].getAttribute('name')})
 			}
 		}
-		arr = JSON.stringify(arr)
-		console.log(arr)
+
+		// var xmlhttp = new XMLHttpRequest();   // new HttpRequest instance 
+		// xmlhttp.open("POST", "/layout/add", true);
+		// xmlhttp.setRequestHeader("Content-Type", "application/json");
+
+		// xhr.onreadystatechange = function () {
+  //       	if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+  //           	alert("Done!");
+  //       	};
+  //  		};
+		// xmlhttp.send(JSON.stringify(arr));
+
+		let obj = {
+			user: user,
+			preset: preset,
+			data: arr
+		}
+
+		$.ajax({
+  			type: "POST",
+  			url: "/layout/add",
+  			data: JSON.stringify(obj),
+  			success: function() { console.log("done") }
+		})
+		
 	}
+	
 
 
 
